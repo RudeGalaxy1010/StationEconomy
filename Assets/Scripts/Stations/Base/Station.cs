@@ -15,7 +15,7 @@ public abstract class Station : MonoBehaviour
     public Schedule Schedule { get; private set; }
     public StationUI StationUI { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         Schedule = GetComponent<Schedule>();
         StationUI = GetComponent<StationUI>();

@@ -8,6 +8,10 @@ using UnityEngine;
 public class VehicleType
 {
     [SerializeField] private GlobalTime minArrivalTime, maxArrivalTime;
+    //TODO: should make generic for such things?
+    public bool isPassThrough;
+    public bool isForwardSpawn;
+
     [SerializeField] private Vehicle prefab;
 
     #region GetInfo Methods

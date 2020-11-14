@@ -9,9 +9,9 @@ public class RailwayStation : Station
 
         foreach (var track in Tracks)
         {
-            if (!track.isBusy)
+            var isFree = track.ShowAvailability();
+            if (!atLeastOneFree && isFree)
             {
-                track.TrackUI.ShowAvailableButton(true);
                 atLeastOneFree = true;
             }
         }
@@ -27,20 +27,16 @@ public class RailwayStation : Station
     {
         foreach (var track in Tracks)
         {
-            track.TrackUI.ShowAvailableButton(false);
+            track.ResetUI();
         }
     }
     
     //Call by button when choose track to arrive and tells track to spawn vehicle
     public void OnChooseTrack(Track track)
     {
-        if (!track.isBusy)
-        {
-            var vehicle = Schedule.AcceptScheduledVehicle();
-            var prefab = vehicle.GetPrefab();
+        var vehicle = Schedule.AcceptScheduledVehicle();
 
-            track.SetVehicle(prefab);
-            ResetTracksUI();
-        }
+        track.SetVehicle(vehicle);
+        ResetTracksUI();
     }
 }
