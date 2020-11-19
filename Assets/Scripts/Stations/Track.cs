@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TrackUI))]
 public class Track : MonoBehaviour
 {
-    //Set in inspector
+    // Set in inspector
     [Tooltip("Should be assigned like: Start, Stop, End")] public List<RoutePoint> Route = new List<RoutePoint>(3);
 
     private Vehicle CurrentVehicle;
@@ -24,7 +24,7 @@ public class Track : MonoBehaviour
     {
         isPassThrough = vehicle.isPassThrough;
         spawnPoint = vehicle.isForwardSpawn ? Route[0] : Route[2];
-        //Set to stopPoint
+        // Set to stopPoint
         destinationPoint = Route[Route.Count/2 + 1];
 
         CurrentVehicle = Instantiate(vehicle.GetPrefab(), spawnPoint.GetPosition(), Quaternion.identity, transform);

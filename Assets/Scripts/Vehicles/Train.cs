@@ -6,17 +6,17 @@ public class Train : Vehicle
     {
         if (transform.position != target)
         {
-            //Move to the target
+            // Move to the target
             Move(target);
         }
         else if (!isUnloaded)
         {
-            //If stop at the track and need to be unloaded
+            // If stop at the track and need to be unloaded
             StartUnload();
         }
         else
         {
-            //If departed and reached start point
+            // If departed and reached start point
             Destroy(gameObject);
         }
     }

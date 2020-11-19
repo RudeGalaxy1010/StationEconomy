@@ -2,12 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-//
-//All vehicle classes should inherit from this class
-//
+// All vehicle classes should inherit from this class
 public class Vehicle : MonoBehaviour
 {
-    //Set in inspector
+    // Set in inspector
     [SerializeField] private new string name = "Vehicle";
     [SerializeField] private float speed = 1f;
     [SerializeField] private float unloadTime = 5f;

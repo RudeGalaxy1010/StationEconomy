@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StationShop : MonoBehaviour
@@ -8,9 +6,7 @@ public class StationShop : MonoBehaviour
 
     public void OnBuyButtonClicked()
     {
-        //
-        //Check money, etc.
-        //
+        // Check money, etc.
         Station.TryAddTrack();
     }
 }

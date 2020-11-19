@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class Notification : MonoBehaviour
 {
     [SerializeField] private Text textField;
     [SerializeField] private Image icon;
-    private StationNotifications notifications;
 
-    public void Set(StationNotifications notifications, string text = "", Sprite icon = null)
+    public UnityAction<Notification> OnClick;
+
+    public void Set(string text = "", Sprite icon = null)
     {
-        this.notifications = notifications;
         if (text != "")
         {
             textField.text = text;
@@ -27,12 +27,17 @@ public class Notification : MonoBehaviour
         }
         else
         {
-            //Standard icon
+            // Standard icon
         }
     }
 
     public void OnNotificationClicked()
     {
-        notifications.RemoveNotification(this);
+        OnClick?.Invoke(this);
+    }
+
+    public void DestroyNotification()
+    {
+        StationNotifications.Instance.OnNotificationClick(this);
     }
 }

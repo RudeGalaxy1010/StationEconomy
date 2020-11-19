@@ -2,23 +2,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Schedule))]
-[RequireComponent(typeof(StationUI))]
 
-//Base class for certain stations
+// Base class for certain stations
 public abstract class Station : MonoBehaviour
 {
-    //Set in inspector
+    // Set in inspector
     [Tooltip("Will be unlocked in order")]
     [SerializeField] protected List<Track> Tracks = new List<Track>();
     [SerializeField] private int unlockedTrackCount;
 
     public Schedule Schedule { get; private set; }
-    public StationUI StationUI { get; private set; }
 
     private void Start()
     {
         Schedule = GetComponent<Schedule>();
-        StationUI = GetComponent<StationUI>();
+        Schedule.OnReadyToArrive += CreateArrivalNotification;
 
         for (int i = 0; i < Tracks.Count; i++)
         {
@@ -33,7 +31,14 @@ public abstract class Station : MonoBehaviour
         }
     }
 
-    //Activate new track if possible and return result
+    #region Arrival Notifications
+    // Should be called by action in schedule
+    public abstract void CreateArrivalNotification();
+
+    public abstract void DestroyArrivalNotification();
+    #endregion
+
+    // Activate new track if possible and return result
     public bool TryAddTrack() 
     {
         if (unlockedTrackCount < Tracks.Count)

@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c055849b588db42a7e0655771aa6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textField: {fileID: 8092915098121897318}
+  icon: {fileID: 7203463274496570653}
 --- !u!114 &7574508722518284397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,9 +137,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 878006933213577371}
-        m_TargetAssemblyTypeName: StationNotifications, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: -2132434457446242634}
+        m_TargetAssemblyTypeName: Notification, Assembly-CSharp
+        m_MethodName: OnNotificationClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
