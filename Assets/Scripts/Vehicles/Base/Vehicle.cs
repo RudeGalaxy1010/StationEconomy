@@ -30,7 +30,6 @@ public class Vehicle : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log("Departed");
         OnDeparted?.Invoke();
     }
 

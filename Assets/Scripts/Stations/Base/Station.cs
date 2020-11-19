@@ -17,6 +17,7 @@ public abstract class Station : MonoBehaviour
     {
         Schedule = GetComponent<Schedule>();
         Schedule.OnReadyToArrive += CreateArrivalNotification;
+        Schedule.OnUnreadyToArrive += DestroyArrivalNotification;
 
         for (int i = 0; i < Tracks.Count; i++)
         {

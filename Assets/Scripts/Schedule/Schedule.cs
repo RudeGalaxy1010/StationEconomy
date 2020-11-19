@@ -35,9 +35,9 @@ public class Schedule : MonoBehaviour
             OnReadyToArrive?.Invoke();
         }
 
-        // If waiting too long
         if (CurrentVehicles.Count > 0)
         {
+            // If waiting too long
             if (CurrentVehicles[0].GetArrivalTime().maxArrivalTime.Equals(WorldTimer.GlobalTime))
             {
                 OnUnreadyToArrive?.Invoke();
