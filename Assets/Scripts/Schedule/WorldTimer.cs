@@ -8,7 +8,7 @@ public class WorldTimer : MonoBehaviour
     public static GlobalTime GlobalTime;
     public static float TimeScale;
 
-    //Set in inspector
+    // Set in inspector
     [SerializeField] private GlobalTime StartTime = new GlobalTime(00, 30);
 
     private void Awake()
@@ -23,7 +23,7 @@ public class WorldTimer : MonoBehaviour
 
     private IEnumerator IncreaseTime()
     {
-        //+1 min. for 2 real sec.
+        // +1 min. for 2 real sec.
         yield return new WaitForSeconds(TimeScale * 2);
         GlobalTime.AddMinutes(1);
         StartCoroutine(IncreaseTime());

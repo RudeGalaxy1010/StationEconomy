@@ -1,7 +1,9 @@
 public class RailwayStation : Station
 {
-    //Call by button and show buttons on available tracks to choose
-    public void OnArrivalAccept()
+    private VehicleType acceptedVehicle;
+
+    // Call by button and show buttons on available tracks to choose
+    public void OnArrivalAccept(Notification callingNote)
     {
         ResetTracksUI();
 
@@ -9,38 +11,52 @@ public class RailwayStation : Station
 
         foreach (var track in Tracks)
         {
-            if (!track.isBusy)
+            var isFree = track.ShowAvailability();
+            if (!atLeastOneFree && isFree)
             {
-                track.TrackUI.ShowAvailableButton(true);
                 atLeastOneFree = true;
             }
         }
 
         if (atLeastOneFree)
         {
-            StationUI.HideArrivalButton();
+            // Destroy notification
+            callingNote.DestroyNotification();
+
+            // Unsubscribe from note click action
+            callingNote.OnClick -= OnArrivalAccept;
+
+            // Get vehicle from schedule
+            acceptedVehicle = Schedule.AcceptScheduledVehicle();
         }
     }
 
-    //Auxiliary function
+    // Auxiliary function
     private void ResetTracksUI()
     {
         foreach (var track in Tracks)
         {
-            track.TrackUI.ShowAvailableButton(false);
+            track.ResetUI();
         }
     }
     
-    //Call by button when choose track to arrive and tells track to spawn vehicle
+    // Call by button when choose track to arrive and tells track to spawn vehicle
     public void OnChooseTrack(Track track)
     {
-        if (!track.isBusy)
-        {
-            var vehicle = Schedule.AcceptScheduledVehicle();
-            var prefab = vehicle.GetPrefab();
-
-            track.SetVehicle(prefab);
-            ResetTracksUI();
-        }
+        track.SetVehicle(acceptedVehicle);
+        ResetTracksUI();
     }
+
+    #region Arrival Notification
+    public override void CreateArrivalNotification()
+    {
+        var note = StationNotifications.Instance.CreateNotification("Train arrival");
+        note.OnClick += OnArrivalAccept;
+    }
+
+    public override void DestroyArrivalNotification()
+    {
+        StationNotifications.Instance.DestroyFirstNotifiaction();
+    }
+    #endregion
 }

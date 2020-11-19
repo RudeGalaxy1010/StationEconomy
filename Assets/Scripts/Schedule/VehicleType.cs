@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 
-//
-//Base class for schedule vehicles
-//
+// Base class for schedule vehicle
 [Serializable]
 public class VehicleType
 {
     [SerializeField] private GlobalTime minArrivalTime, maxArrivalTime;
+    // TODO: should make generic for such things?
+    public bool isPassThrough;
+    public bool isForwardSpawn;
+
     [SerializeField] private Vehicle prefab;
 
     #region GetInfo Methods

@@ -7,9 +7,9 @@ using UnityEngine.Events;
 [Serializable]
 public class Schedule : MonoBehaviour
 {
-    //Using list instead of queue for inspector serialization
+    // Using list instead of queue for inspector serialization
     [SerializeField] private List<VehicleType> VehicleQueue = new List<VehicleType>();
-    [SerializeField] private VehicleType CurrentVehicle;
+    [SerializeField] private List<VehicleType> CurrentVehicles = new List<VehicleType>();
     private int vehicleIndex = 0;
 
     public UnityAction
@@ -18,7 +18,7 @@ public class Schedule : MonoBehaviour
 
     private void Start()
     {
-        //Order by the arrival time
+        // Order by the arrival time
         VehicleQueue = VehicleQueue.
             OrderBy(t => t.GetArrivalTime().minArrivalTime.Hours).
             ThenBy(t => t.GetArrivalTime().minArrivalTime.Minutes).ToList();
@@ -26,35 +26,39 @@ public class Schedule : MonoBehaviour
 
     private void Update()
     {
-        //If time has come :)
+        // If time has come :)
         if (VehicleQueue[vehicleIndex].GetArrivalTime().minArrivalTime.Equals(WorldTimer.GlobalTime))
         {
-            CurrentVehicle = VehicleQueue[vehicleIndex];
+            CurrentVehicles.Add(VehicleQueue[vehicleIndex]);
             //To control index range
             vehicleIndex = (vehicleIndex + 1) % VehicleQueue.Count;
             OnReadyToArrive?.Invoke();
         }
 
-        //if waiting too long
-        if (CurrentVehicle != null)
+        // If waiting too long
+        if (CurrentVehicles.Count > 0)
         {
-            if (CurrentVehicle.GetArrivalTime().maxArrivalTime.Equals(WorldTimer.GlobalTime))
+            if (CurrentVehicles[0].GetArrivalTime().maxArrivalTime.Equals(WorldTimer.GlobalTime))
             {
                 OnUnreadyToArrive?.Invoke();
-                CurrentVehicle = null;
+                CurrentVehicles.RemoveAt(0);
             }
         }
     }
 
     public VehicleType AcceptScheduledVehicle()
     {
-        if (CurrentVehicle != null)
+        try
         {
-            var vehicle = CurrentVehicle;
-            CurrentVehicle = null;
+            var vehicle = CurrentVehicles[0];
+            CurrentVehicles.RemoveAt(0);
             return vehicle;
         }
+        catch (Exception)
+        {
+            Debug.LogError("Vehicle arrival queue is null!");
+        }
 
-        throw new Exception("Vehicle is null!");
+        return null;
     }
 }

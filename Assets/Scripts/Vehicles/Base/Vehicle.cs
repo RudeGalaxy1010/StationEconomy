@@ -2,17 +2,18 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-//
-//All vehicle classes should inherit from this class
-//
+// All vehicle classes should inherit from this class
 public class Vehicle : MonoBehaviour
 {
+    // Set in inspector
     [SerializeField] private new string name = "Vehicle";
     [SerializeField] private float speed = 1f;
     [SerializeField] private float unloadTime = 5f;
-    [SerializeField] protected Vector3 target;
+    
+    protected Vector3 target;
 
     public bool isUnloaded { get; private set; } = false;
+    public UnityAction OnUnloaded;
     public UnityAction OnDeparted;
 
     public void StartUnload()
@@ -37,6 +38,7 @@ public class Vehicle : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         isUnloaded = true;
+        OnUnloaded?.Invoke();
     }
 
     #region GetInfo Methods
